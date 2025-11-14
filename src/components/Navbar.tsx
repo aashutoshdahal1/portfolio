@@ -11,8 +11,6 @@ const sections = [
 
 const Navbar = () => {
   const [active, setActive] = useState<string>("home");
-  // Website completion percentage (0-100)
-  const progressPercent = 80;
 
   useEffect(() => {
     const elems = sections
@@ -80,18 +78,6 @@ const Navbar = () => {
               {s.label}
             </button>
           ))}
-        </div>
-
-        {/* Progress label (visible on md+) */}
-        <div className="hidden md:flex items-center pl-4">
-          <div
-            className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium"
-            role="status"
-            aria-label={`Website completion ${progressPercent} percent`}
-            title={`Website completion ${progressPercent}%`}
-          >
-            Progress: {progressPercent}%
-          </div>
         </div>
 
         <div className="md:hidden">
