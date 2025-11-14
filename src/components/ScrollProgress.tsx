@@ -38,8 +38,7 @@ const ScrollProgress = () => {
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      aria-label={`Scroll progress ${progress} percent — click to go to top`}
-      title={`${progress}%`}
+      aria-label={`Scroll to top`}
       className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full glass flex items-center justify-center shadow-elegant focus:outline-none focus:ring-2 focus:ring-primary"
     >
       <svg className="transform -rotate-90" width="44" height="44" viewBox="0 0 44 44">
@@ -62,7 +61,6 @@ const ScrollProgress = () => {
           strokeDashoffset={offset}
         />
       </svg>
-      <span className="absolute text-xs font-medium text-foreground">{progress}%</span>
     </button>
   );
 };
