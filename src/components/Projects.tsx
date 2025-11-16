@@ -31,10 +31,20 @@ const Projects = () => {
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-smooth" />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-smooth">
                   <div className="flex gap-4">
-                    <Button size="sm" variant="secondary" className="shadow-lg" onClick={() => window.open(project.demoUrl, '_blank')}>
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Demo
-                    </Button>
+<Button
+  size="sm"
+  variant="secondary"
+  className="shadow-lg"
+  onClick={() => {
+    const url = project.demoUrl.startsWith('http')
+      ? project.demoUrl
+      : `https://${project.demoUrl.replace(/^\/+/, '')}`;
+    window.open(url, '_blank');
+  }}
+>
+  Demo
+</Button>
+
                     <Button size="sm" variant="secondary" className="shadow-lg" onClick={() => window.open(project.codeUrl, '_blank')}>
                       <Github className="h-4 w-4 mr-2" />
                       Code
