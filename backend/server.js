@@ -8,7 +8,18 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+// Restrict CORS to known origins. Add 'https://aashutoshdahal.vercel.app' as an allowed origin.
+const allowedOrigins = [process.env.CORS_ORIGIN || 'https://aashutoshdahal.vercel.app', 'http://localhost:5173'];
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+    return callback(new Error('CORS policy: Origin not allowed'));
+  }
+}));
 app.use(bodyParser.json());
 app.use(express.json());
 
