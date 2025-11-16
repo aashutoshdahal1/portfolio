@@ -33,14 +33,53 @@ const Projects = () => {
                 const isColor = project.bgType === 'color';
                 const bgValue = project.bgValue ?? '';
                 const bgClass = isGradient ? `bg-gradient-to-br ${bgValue}` : '';
-                const bgStyle: any = isImage && bgValue
-                  ? { backgroundImage: `url(${bgValue})`, backgroundSize: 'cover', backgroundPosition: 'center' }
-                  : isColor && bgValue
-                  ? { backgroundColor: bgValue }
-                  : undefined;
+                const bgColorStyle: any = isColor && bgValue ? { backgroundColor: bgValue } : undefined;
 
+                // For images use an <img> with object-cover so the entire image fits the container nicely
+                if (isImage && bgValue) {
+                  return (
+                    <div className={`h-48 relative overflow-hidden ${bgClass}`} style={bgColorStyle}>
+                      <img
+                        src={bgValue}
+                        alt={project.title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        onError={(e) => {
+                          // Fallback: hide broken image by removing src
+                          (e.currentTarget as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-smooth" />
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-smooth">
+                        <div className="flex gap-4">
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            className="shadow-lg"
+                            onClick={() => {
+                              const url = project.demoUrl && project.demoUrl.startsWith('http')
+                                ? project.demoUrl
+                                : project.demoUrl
+                                ? `https://${project.demoUrl.replace(/^\/+/, '')}`
+                                : '#';
+                              if (url !== '#') window.open(url, '_blank');
+                            }}
+                          >
+                            Demo
+                          </Button>
+
+                          <Button size="sm" variant="secondary" className="shadow-lg" onClick={() => project.codeUrl && window.open(project.codeUrl, '_blank')}>
+                            <Github className="h-4 w-4 mr-2" />
+                            Code
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
+                // Gradient or color (or fallback)
                 return (
-                  <div className={`h-48 ${bgClass} relative overflow-hidden`} style={bgStyle}>
+                  <div className={`h-48 ${bgClass} relative overflow-hidden`} style={bgColorStyle}>
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-smooth" />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-smooth">
                       <div className="flex gap-4">
@@ -49,16 +88,18 @@ const Projects = () => {
                           variant="secondary"
                           className="shadow-lg"
                           onClick={() => {
-                            const url = project.demoUrl.startsWith('http')
+                            const url = project.demoUrl && project.demoUrl.startsWith('http')
                               ? project.demoUrl
-                              : `https://${project.demoUrl.replace(/^\/+/, '')}`;
-                            window.open(url, '_blank');
+                              : project.demoUrl
+                              ? `https://${project.demoUrl.replace(/^\/+/, '')}`
+                              : '#';
+                            if (url !== '#') window.open(url, '_blank');
                           }}
                         >
                           Demo
                         </Button>
 
-                        <Button size="sm" variant="secondary" className="shadow-lg" onClick={() => window.open(project.codeUrl, '_blank')}>
+                        <Button size="sm" variant="secondary" className="shadow-lg" onClick={() => project.codeUrl && window.open(project.codeUrl, '_blank')}>
                           <Github className="h-4 w-4 mr-2" />
                           Code
                         </Button>
