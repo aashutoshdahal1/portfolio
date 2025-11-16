@@ -1,43 +1,33 @@
-const Skills = () => {
-  const skillCategories = [
-    {
-      title: "Frontend",
-      skills: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Redux", "Vue.js"]
-    },
-    {
-      title: "Backend",
-      skills: ["Node.js", "Express", "MongoDB", "PostgreSQL", "REST APIs", "GraphQL"]
-    },
-    {
-      title: "Tools & Others",
-      skills: ["Git", "Docker", "AWS", "Firebase", "Jest", "CI/CD"]
-    }
-  ];
+import { usePortfolioSection, type SkillsData } from "@/hooks/usePortfolio";
 
-  // Skills that should use a blue pill style
+const Skills = () => {
+  const { data: skillsData, loading } = usePortfolioSection<SkillsData>('skills');
+
   const blueSkills = new Set([
-    "TypeScript",
-    "Next.js",
-    "Tailwind CSS",
-    "Redux",
-    "Vue.js",
-    "Node.js",
-    "Express",
-    "MongoDB",
-    "PostgreSQL",
-    "REST APIs",
-    "GraphQL",
-    "Git",
-    "Docker",
-    "AWS",
-    "Firebase",
-    "Jest",
-    "CI/CD",
+    "TypeScript", "Next.js", "Tailwind CSS", "Redux", "Vue.js",
+    "Node.js", "Express", "MongoDB", "PostgreSQL", "REST APIs", "GraphQL",
+    "Git", "Docker", "AWS", "Firebase", "Jest", "CI/CD",
   ]);
+
+  if (loading) {
+    return (
+      <section id="skills" className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="animate-pulse space-y-8">
+            <div className="h-12 bg-muted rounded w-1/3 mx-auto"></div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-48 bg-muted rounded"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="skills" className="py-32 px-6 relative overflow-hidden">
-      {/* Background Elements */}
       <div className="absolute bottom-20 left-0 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
       
       <div className="max-w-7xl mx-auto">
@@ -49,7 +39,7 @@ const Skills = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {skillCategories.map((category, categoryIndex) => (
+          {skillsData?.categories?.map((category, categoryIndex) => (
             <div
               key={categoryIndex}
               className="glass p-8 rounded-3xl hover:bg-card/60 transition-smooth"
@@ -68,7 +58,6 @@ const Skills = () => {
                           ? "bg-blue-600 text-white border border-transparent hover:bg-blue-700"
                           : "bg-card text-foreground border border-border/60 hover:bg-primary/10 hover:border-primary/60")
                       }
-                      aria-label={`${skill} skill`}
                     >
                       {skill}
                     </span>

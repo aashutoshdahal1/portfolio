@@ -2,8 +2,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { usePortfolioSection, type ContactData } from "@/hooks/usePortfolio";
 
 const Contact = () => {
+  const { data: contactData, loading } = usePortfolioSection<ContactData>('contact');
+
+  if (loading) {
+    return (
+      <section id="contact" className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="animate-pulse space-y-8">
+            <div className="h-12 bg-muted rounded w-1/2 mx-auto"></div>
+            <div className="grid lg:grid-cols-2 gap-12">
+              <div className="h-96 bg-muted rounded"></div>
+              <div className="h-96 bg-muted rounded"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="contact" className="py-32 px-6 relative overflow-hidden">
       {/* Background Elements */}
@@ -31,7 +50,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold mb-1">Email</p>
-                    <p className="text-muted-foreground">your.email@example.com</p>
+                    <p className="text-muted-foreground">{contactData?.email || "your.email@example.com"}</p>
                   </div>
                 </div>
 
@@ -41,7 +60,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold mb-1">Phone</p>
-                    <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                    <p className="text-muted-foreground">{contactData?.phone || "+1 (555) 123-4567"}</p>
                   </div>
                 </div>
 
@@ -51,7 +70,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold mb-1">Location</p>
-                    <p className="text-muted-foreground">San Francisco, CA</p>
+                    <p className="text-muted-foreground">{contactData?.location || "Your Location"}</p>
                   </div>
                 </div>
               </div>
@@ -60,8 +79,7 @@ const Contact = () => {
             <div className="glass p-8 rounded-3xl">
               <h3 className="text-xl font-bold mb-4">Let's Connect</h3>
               <p className="text-muted-foreground leading-relaxed">
-                I'm always interested in hearing about new projects and opportunities. 
-                Whether you have a question or just want to say hi, feel free to reach out!
+                {contactData?.description || "I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, feel free to reach out!"}
               </p>
             </div>
           </div>

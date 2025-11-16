@@ -1,0 +1,106 @@
+{
+  "hero": {
+    "name": "Aashutosh Dahal",
+    "title": "Front-End Developer & MERN Stack Expert",
+    "description": "Crafting exceptional digital experiences with modern web technologies. Specialized in building scalable, performant applications that users love. Let's create something extraordinary together.",
+    "welcomeText": "Welcome to my portfolio",
+    "socialLinks": {
+      "github": "#",
+      "linkedin": "#",
+      "email": "#"
+    }
+  },
+  "about": {
+    "paragraphs": [
+      "I'm a dedicated developer who blends creativity with technical precision to craft meaningful digital experiences. Skilled in the MERN stack and modern front-end technologies, I turn complex ideas into clean and user-focused solutions.",
+      "My journey in web development began with a simple curiosity about how the web works, and it has grown into a passion for building products that truly make an impact. I'm committed to continuous learning and staying aligned with evolving technologies to deliver innovative results.",
+      "Outside of coding, I enjoy going to gym, experimenting with new tools, contributing to open-source projects, and sharing insights with the developer community."
+    ],
+    "highlights": [
+      {
+        "title": "Clean Code",
+        "description": "Writing maintainable, scalable code with best practices"
+      },
+      {
+        "title": "Design Excellence",
+        "description": "Crafting beautiful, intuitive user interfaces"
+      },
+      {
+        "title": "Performance",
+        "description": "Optimized solutions for lightning-fast experiences"
+      },
+      {
+        "title": "Collaboration",
+        "description": "Working seamlessly with teams and stakeholders"
+      }
+    ]
+  },
+  "skills": {
+    "categories": [
+      {
+        "title": "Frontend",
+        "skills": ["React", "TypeScript", "Next.js", "Tailwind CSS", "Redux", "Vue.js"]
+      },
+      {
+        "title": "Backend",
+        "skills": ["Node.js", "Express", "MongoDB", "PostgreSQL", "REST APIs", "GraphQL"]
+      },
+      {
+        "title": "Tools & Others",
+        "skills": ["Git", "Docker", "AWS", "Firebase", "Jest", "CI/CD"]
+      }
+    ]
+  },
+  "projects": [
+    {
+      "title": "E-Commerce Platform",
+      "description": "A full-stack e-commerce solution with real-time inventory, payment integration, and admin dashboard.",
+      "tech": ["React", "Node.js", "MongoDB", "Stripe"],
+      "image": "from-blue-500 to-purple-600",
+      "demoLink": "#",
+      "codeLink": "#"
+    },
+    {
+      "title": "Task Management App",
+      "description": "Collaborative task management tool with real-time updates, team workspaces, and analytics.",
+      "tech": ["Next.js", "TypeScript", "PostgreSQL", "WebSockets"],
+      "image": "from-purple-500 to-pink-600",
+      "demoLink": "#",
+      "codeLink": "#"
+    },
+    {
+      "title": "Social Media Dashboard",
+      "description": "Analytics dashboard aggregating data from multiple social media platforms with beautiful visualizations.",
+      "tech": ["React", "D3.js", "Express", "Redis"],
+      "image": "from-cyan-500 to-blue-600",
+      "demoLink": "#",
+      "codeLink": "#"
+    }
+  ],
+  "experience": [
+    {
+      "year": "2023 - Present",
+      "role": "Senior Front-End Developer",
+      "company": "Tech Innovations Inc.",
+      "description": "Leading front-end development for enterprise applications, mentoring junior developers, and implementing best practices."
+    },
+    {
+      "year": "2021 - 2023",
+      "role": "Full-Stack Developer",
+      "company": "Digital Solutions Ltd.",
+      "description": "Built and maintained multiple client projects using MERN stack, improved application performance by 40%."
+    },
+    {
+      "year": "2019 - 2021",
+      "role": "Junior Developer",
+      "company": "StartUp Ventures",
+      "description": "Developed responsive web applications, collaborated with designers to implement pixel-perfect UIs."
+    }
+  ],
+  "contact": {
+    "email": "your.email@example.com",
+    "phone": "+1 (555) 123-4567",
+    "location": "San Francisco, CA",
+    "description": "I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, feel free to reach out!"
+  }
+}

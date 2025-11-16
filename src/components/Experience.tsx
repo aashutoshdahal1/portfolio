@@ -1,24 +1,22 @@
-const Experience = () => {
-  const experiences = [
-    {
-      year: "2023 - Present",
-      role: "Senior Front-End Developer",
-      company: "Tech Innovations Inc.",
-      description: "Leading front-end development for enterprise applications, mentoring junior developers, and implementing best practices."
-    },
-    {
-      year: "2021 - 2023",
-      role: "Full-Stack Developer",
-      company: "Digital Solutions Ltd.",
-      description: "Built and maintained multiple client projects using MERN stack, improved application performance by 40%."
-    },
-    {
-      year: "2019 - 2021",
-      role: "Junior Developer",
-      company: "StartUp Ventures",
-      description: "Developed responsive web applications, collaborated with designers to implement pixel-perfect UIs."
-    }
-  ];
+import { usePortfolioSection, type Experience as ExperienceType } from "@/hooks/usePortfolio";
+
+const ExperienceSection = () => {
+  const { data: experiences, loading } = usePortfolioSection<ExperienceType[]>('experience');
+
+  if (loading) {
+    return (
+      <section id="experience" className="py-32 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="animate-pulse space-y-8">
+            <div className="h-12 bg-muted rounded w-1/2 mx-auto"></div>
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-32 bg-muted rounded"></div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="experience" className="py-32 px-6 relative overflow-hidden">
@@ -38,7 +36,7 @@ const Experience = () => {
           <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-accent to-transparent" />
 
           <div className="space-y-12">
-            {experiences.map((exp, index) => (
+            {experiences?.map((exp, index) => (
               <div
                 key={index}
                 className="relative pl-20 animate-fade-up"
@@ -66,4 +64,4 @@ const Experience = () => {
   );
 };
 
-export default Experience;
+export default ExperienceSection;

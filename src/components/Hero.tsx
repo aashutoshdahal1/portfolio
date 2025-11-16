@@ -1,7 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
+import { usePortfolioSection, type HeroData } from "@/hooks/usePortfolio";
 
 const Hero = () => {
+  const { data: heroData, loading } = usePortfolioSection<HeroData>('hero');
+
+  if (loading) {
+    return (
+      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 py-20">
+        <div className="animate-pulse space-y-4 max-w-3xl">
+          <div className="h-8 bg-muted rounded w-1/3"></div>
+          <div className="h-20 bg-muted rounded w-full"></div>
+          <div className="h-12 bg-muted rounded w-3/4"></div>
+        </div>
+      </section>
+    );
+  }
+
   return (
   <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 py-20">
       {/* Animated Background */}
@@ -16,20 +31,18 @@ const Hero = () => {
         <div className="space-y-8 animate-fade-up">
           <div className="space-y-4">
             <p className="text-muted-foreground text-lg font-medium tracking-wide uppercase">
-              Welcome to my portfolio
+              {heroData?.welcomeText || "Welcome to my portfolio"}
             </p>
             <h1 className="text-6xl md:text-7xl lg:text-6xl font-bold leading-tight">
-              <span className="text-gradient">Aashutosh Dahal</span>
+              <span className="text-gradient">{heroData?.name || "Your Name"}</span>
             </h1>
             <h2 className="text-2xl md:text-3xl lg:text-4xl text-muted-foreground font-medium">
-              Front-End Developer & MERN Stack Expert
+              {heroData?.title || "Your Title"}
             </h2>
           </div>
 
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
-            Crafting exceptional digital experiences with modern web technologies.
-            Specialized in building scalable, performant applications that users love.
-            Let's create something extraordinary together.
+            {heroData?.description || "Your description here"}
           </p>
 
           <div className="flex flex-wrap gap-4">
@@ -57,27 +70,37 @@ const Hero = () => {
           </div>
 
           <div className="flex gap-4 pt-4">
-            <a 
-              href="#" 
-              className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-smooth group"
-              aria-label="GitHub"
-            >
-              <Github className="h-5 w-5" />
-            </a>
-            <a 
-              href="#" 
-              className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-smooth group"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="h-5 w-5" />
-            </a>
-            <a 
-              href="#" 
-              className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-smooth group"
-              aria-label="Email"
-            >
-              <Mail className="h-5 w-5" />
-            </a>
+            {heroData?.socialLinks?.github && (
+              <a 
+                href={heroData.socialLinks.github} 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-smooth group"
+                aria-label="GitHub"
+              >
+                <Github className="h-5 w-5" />
+              </a>
+            )}
+            {heroData?.socialLinks?.linkedin && (
+              <a 
+                href={heroData.socialLinks.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-smooth group"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="h-5 w-5" />
+              </a>
+            )}
+            {heroData?.socialLinks?.email && (
+              <a 
+                href={`mailto:${heroData.socialLinks.email}`}
+                className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-smooth group"
+                aria-label="Email"
+              >
+                <Mail className="h-5 w-5" />
+              </a>
+            )}
           </div>
         </div>
 
