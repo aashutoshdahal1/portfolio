@@ -26,32 +26,47 @@ const Projects = () => {
               key={index}
               className="group glass border-2 border-border/50 hover:border-primary/50 transition-smooth overflow-hidden"
             >
-              {/* Project Image Placeholder */}
-              <div className={`h-48 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-smooth" />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-smooth">
-                  <div className="flex gap-4">
-<Button
-  size="sm"
-  variant="secondary"
-  className="shadow-lg"
-  onClick={() => {
-    const url = project.demoUrl.startsWith('http')
-      ? project.demoUrl
-      : `https://${project.demoUrl.replace(/^\/+/, '')}`;
-    window.open(url, '_blank');
-  }}
->
-  Demo
-</Button>
+              {/* Project Image / Background */}
+              {(() => {
+                const isGradient = project.bgType === 'gradient';
+                const isImage = project.bgType === 'image';
+                const isColor = project.bgType === 'color';
+                const bgValue = project.bgValue ?? '';
+                const bgClass = isGradient ? `bg-gradient-to-br ${bgValue}` : '';
+                const bgStyle: any = isImage && bgValue
+                  ? { backgroundImage: `url(${bgValue})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+                  : isColor && bgValue
+                  ? { backgroundColor: bgValue }
+                  : undefined;
 
-                    <Button size="sm" variant="secondary" className="shadow-lg" onClick={() => window.open(project.codeUrl, '_blank')}>
-                      <Github className="h-4 w-4 mr-2" />
-                      Code
-                    </Button>
+                return (
+                  <div className={`h-48 ${bgClass} relative overflow-hidden`} style={bgStyle}>
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-smooth" />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-smooth">
+                      <div className="flex gap-4">
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          className="shadow-lg"
+                          onClick={() => {
+                            const url = project.demoUrl.startsWith('http')
+                              ? project.demoUrl
+                              : `https://${project.demoUrl.replace(/^\/+/, '')}`;
+                            window.open(url, '_blank');
+                          }}
+                        >
+                          Demo
+                        </Button>
+
+                        <Button size="sm" variant="secondary" className="shadow-lg" onClick={() => window.open(project.codeUrl, '_blank')}>
+                          <Github className="h-4 w-4 mr-2" />
+                          Code
+                        </Button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                );
+              })()}
 
               <div className="p-6 space-y-4">
                 <h3 className="text-2xl font-bold group-hover:text-gradient transition-smooth">

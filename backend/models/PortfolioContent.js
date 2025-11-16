@@ -24,7 +24,9 @@ const portfolioContentSchema = new mongoose.Schema({
     tech: [{ type: String }],
     demoUrl: { type: String },
     codeUrl: { type: String },
-    gradient: { type: String }
+    // background can be a gradient (tailwind classes), an image URL, or a color value
+    bgType: { type: String, enum: ['gradient', 'image', 'color'], default: 'gradient' },
+    bgValue: { type: String }
   }],
   experience: [{
     year: { type: String, required: true },

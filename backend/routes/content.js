@@ -51,7 +51,8 @@ router.get('/', async (req, res) => {
             tech: ["React", "Node.js", "MongoDB", "Stripe"],
             demoUrl: "#",
             codeUrl: "#",
-            gradient: "from-blue-500 to-purple-600"
+            bgType: 'gradient',
+            bgValue: "from-blue-500 to-purple-600"
           },
           {
             title: "Task Management App",
@@ -59,7 +60,8 @@ router.get('/', async (req, res) => {
             tech: ["Next.js", "TypeScript", "PostgreSQL", "WebSockets"],
             demoUrl: "#",
             codeUrl: "#",
-            gradient: "from-purple-500 to-pink-600"
+            bgType: 'gradient',
+            bgValue: "from-purple-500 to-pink-600"
           },
           {
             title: "Social Media Dashboard",
@@ -67,7 +69,8 @@ router.get('/', async (req, res) => {
             tech: ["React", "D3.js", "Express", "Redis"],
             demoUrl: "#",
             codeUrl: "#",
-            gradient: "from-cyan-500 to-blue-600"
+            bgType: 'gradient',
+            bgValue: "from-cyan-500 to-blue-600"
           }
         ],
         experience: [

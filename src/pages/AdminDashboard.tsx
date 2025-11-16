@@ -83,7 +83,8 @@ const AdminDashboard = () => {
       tech: ['Tech1', 'Tech2'],
       demoUrl: '#',
       codeUrl: '#',
-      gradient: 'from-blue-500 to-purple-600'
+      bgType: 'gradient',
+      bgValue: 'from-blue-500 to-purple-600'
     });
     setEditedContent(newContent);
   };
@@ -403,17 +404,68 @@ const AdminDashboard = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label>Gradient (Tailwind classes)</Label>
-                      <Input
-                        value={project.gradient}
+                      <Label>Background Type</Label>
+                      <select
+                        value={project.bgType ?? 'gradient'}
                         onChange={(e) => {
                           const newContent = { ...editedContent };
-                          newContent.projects[index].gradient = e.target.value;
+                          newContent.projects[index].bgType = e.target.value as any;
                           setEditedContent(newContent);
                         }}
-                        className="glass border-2 border-border/50"
-                        placeholder="from-blue-500 to-purple-600"
-                      />
+                        className="glass border-2 border-border/50 p-2 rounded"
+                      >
+                        <option value="gradient">Gradient (Tailwind)</option>
+                        <option value="image">Image URL</option>
+                        <option value="color">Solid Color</option>
+                      </select>
+
+                      {project.bgType === 'gradient' && (
+                        <div className="space-y-2 mt-2">
+                          <Label>Gradient classes</Label>
+                          <Input
+                            value={project.bgValue ?? ''}
+                            onChange={(e) => {
+                              const newContent = { ...editedContent };
+                              newContent.projects[index].bgValue = e.target.value;
+                              setEditedContent(newContent);
+                            }}
+                            className="glass border-2 border-border/50"
+                            placeholder="from-blue-500 to-purple-600"
+                          />
+                        </div>
+                      )}
+
+                      {project.bgType === 'image' && (
+                        <div className="space-y-2 mt-2">
+                          <Label>Image URL</Label>
+                          <Input
+                            value={project.bgValue ?? ''}
+                            onChange={(e) => {
+                              const newContent = { ...editedContent };
+                              newContent.projects[index].bgValue = e.target.value;
+                              setEditedContent(newContent);
+                            }}
+                            className="glass border-2 border-border/50"
+                            placeholder="https://example.com/image.jpg"
+                          />
+                        </div>
+                      )}
+
+                      {project.bgType === 'color' && (
+                        <div className="space-y-2 mt-2">
+                          <Label>Color (hex or CSS color)</Label>
+                          <Input
+                            value={project.bgValue ?? ''}
+                            onChange={(e) => {
+                              const newContent = { ...editedContent };
+                              newContent.projects[index].bgValue = e.target.value;
+                              setEditedContent(newContent);
+                            }}
+                            className="glass border-2 border-border/50"
+                            placeholder="#0ea5e9"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="space-y-2">

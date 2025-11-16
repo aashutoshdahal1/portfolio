@@ -28,7 +28,10 @@ interface Project {
   tech: string[];
   demoUrl: string;
   codeUrl: string;
-  gradient: string;
+  // background type: 'gradient' (tailwind classes), 'image' (image URL), or 'color' (CSS color)
+  bgType: 'gradient' | 'image' | 'color';
+  // bgValue holds the tailwind gradient classes (for gradient), the image URL (for image), or color value (for color)
+  bgValue: string;
 }
 
 interface Experience {
@@ -92,7 +95,8 @@ const defaultContent: PortfolioContent = {
       tech: ["React", "Node.js", "MongoDB", "Stripe"],
       demoUrl: "#",
       codeUrl: "#",
-      gradient: "from-blue-500 to-purple-600"
+      bgType: 'gradient',
+      bgValue: "from-blue-500 to-purple-600"
     },
     {
       title: "Task Management App",
@@ -100,7 +104,8 @@ const defaultContent: PortfolioContent = {
       tech: ["Next.js", "TypeScript", "PostgreSQL", "WebSockets"],
       demoUrl: "#",
       codeUrl: "#",
-      gradient: "from-purple-500 to-pink-600"
+      bgType: 'gradient',
+      bgValue: "from-purple-500 to-pink-600"
     },
     {
       title: "Social Media Dashboard",
@@ -108,7 +113,8 @@ const defaultContent: PortfolioContent = {
       tech: ["React", "D3.js", "Express", "Redis"],
       demoUrl: "#",
       codeUrl: "#",
-      gradient: "from-cyan-500 to-blue-600"
+      bgType: 'gradient',
+      bgValue: "from-cyan-500 to-blue-600"
     }
   ],
   experience: [
