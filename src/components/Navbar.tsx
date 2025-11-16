@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const sections = [
   { id: "home", label: "Home" },
@@ -11,6 +12,7 @@ const sections = [
 
 const Navbar = () => {
   const [active, setActive] = useState<string>("home");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const elems = sections
@@ -78,6 +80,15 @@ const Navbar = () => {
               {s.label}
             </button>
           ))}
+
+          {/* Admin Login redirect button */}
+          <button
+            onClick={() => navigate('/admin/login')}
+            className="text-sm font-semibold py-2 px-3 rounded-full bg-primary text-primary-foreground hover:opacity-90 transition"
+            aria-label="Admin login"
+          >
+            Admin Login
+          </button>
         </div>
 
         <div className="md:hidden">
