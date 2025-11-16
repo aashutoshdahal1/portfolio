@@ -1,18 +1,8 @@
+import { useContent } from "@/contexts/ContentContext";
+
 const Skills = () => {
-  const skillCategories = [
-    {
-      title: "Frontend",
-      skills: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Redux", "Vue.js"]
-    },
-    {
-      title: "Backend",
-      skills: ["Node.js", "Express", "MongoDB", "PostgreSQL", "REST APIs", "GraphQL"]
-    },
-    {
-      title: "Tools & Others",
-      skills: ["Git", "Docker", "AWS", "Firebase", "Jest", "CI/CD"]
-    }
-  ];
+  const { content } = useContent();
+  const { skills: skillCategories } = content;
 
   // Skills that should use a blue pill style
   const blueSkills = new Set([

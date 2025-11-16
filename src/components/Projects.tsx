@@ -1,28 +1,11 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github } from "lucide-react";
+import { useContent } from "@/contexts/ContentContext";
 
 const Projects = () => {
-  const projects = [
-    {
-      title: "E-Commerce Platform",
-      description: "A full-stack e-commerce solution with real-time inventory, payment integration, and admin dashboard.",
-      tech: ["React", "Node.js", "MongoDB", "Stripe"],
-      image: "from-blue-500 to-purple-600"
-    },
-    {
-      title: "Task Management App",
-      description: "Collaborative task management tool with real-time updates, team workspaces, and analytics.",
-      tech: ["Next.js", "TypeScript", "PostgreSQL", "WebSockets"],
-      image: "from-purple-500 to-pink-600"
-    },
-    {
-      title: "Social Media Dashboard",
-      description: "Analytics dashboard aggregating data from multiple social media platforms with beautiful visualizations.",
-      tech: ["React", "D3.js", "Express", "Redis"],
-      image: "from-cyan-500 to-blue-600"
-    }
-  ];
+  const { content } = useContent();
+  const { projects } = content;
 
   return (
     <section id="projects" className="py-32 px-6 relative overflow-hidden">
@@ -44,15 +27,15 @@ const Projects = () => {
               className="group glass border-2 border-border/50 hover:border-primary/50 transition-smooth overflow-hidden"
             >
               {/* Project Image Placeholder */}
-              <div className={`h-48 bg-gradient-to-br ${project.image} relative overflow-hidden`}>
+              <div className={`h-48 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-smooth" />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-smooth">
                   <div className="flex gap-4">
-                    <Button size="sm" variant="secondary" className="shadow-lg">
+                    <Button size="sm" variant="secondary" className="shadow-lg" onClick={() => window.open(project.demoUrl, '_blank')}>
                       <ExternalLink className="h-4 w-4 mr-2" />
                       Demo
                     </Button>
-                    <Button size="sm" variant="secondary" className="shadow-lg">
+                    <Button size="sm" variant="secondary" className="shadow-lg" onClick={() => window.open(project.codeUrl, '_blank')}>
                       <Github className="h-4 w-4 mr-2" />
                       Code
                     </Button>

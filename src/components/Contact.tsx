@@ -2,8 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { useContent } from "@/contexts/ContentContext";
 
 const Contact = () => {
+  const { content } = useContent();
+  const { contact } = content;
+
   return (
     <section id="contact" className="py-32 px-6 relative overflow-hidden">
       {/* Background Elements */}
@@ -31,7 +35,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold mb-1">Email</p>
-                    <p className="text-muted-foreground">your.email@example.com</p>
+                    <p className="text-muted-foreground">{contact.email}</p>
                   </div>
                 </div>
 
@@ -41,7 +45,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold mb-1">Phone</p>
-                    <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                    <p className="text-muted-foreground">{contact.phone}</p>
                   </div>
                 </div>
 
@@ -51,7 +55,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold mb-1">Location</p>
-                    <p className="text-muted-foreground">San Francisco, CA</p>
+                    <p className="text-muted-foreground">{contact.location}</p>
                   </div>
                 </div>
               </div>

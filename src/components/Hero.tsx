@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
+import { useContent } from "@/contexts/ContentContext";
 
 const Hero = () => {
+  const { content } = useContent();
+  const { hero } = content;
+
   return (
   <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 py-20">
       {/* Animated Background */}
@@ -16,20 +20,18 @@ const Hero = () => {
         <div className="space-y-8 animate-fade-up">
           <div className="space-y-4">
             <p className="text-muted-foreground text-lg font-medium tracking-wide uppercase">
-              Welcome to my portfolio
+              {hero.subtitle}
             </p>
             <h1 className="text-6xl md:text-7xl lg:text-6xl font-bold leading-tight">
-              <span className="text-gradient">Aashutosh Dahal</span>
+              <span className="text-gradient">{hero.name}</span>
             </h1>
             <h2 className="text-2xl md:text-3xl lg:text-4xl text-muted-foreground font-medium">
-              Front-End Developer & MERN Stack Expert
+              {hero.title}
             </h2>
           </div>
 
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
-            Crafting exceptional digital experiences with modern web technologies.
-            Specialized in building scalable, performant applications that users love.
-            Let's create something extraordinary together.
+            {hero.description}
           </p>
 
           <div className="flex flex-wrap gap-4">
@@ -58,21 +60,21 @@ const Hero = () => {
 
           <div className="flex gap-4 pt-4">
             <a 
-              href="#" 
+              href={hero.githubUrl} 
               className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-smooth group"
               aria-label="GitHub"
             >
               <Github className="h-5 w-5" />
             </a>
             <a 
-              href="#" 
+              href={hero.linkedinUrl} 
               className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-smooth group"
               aria-label="LinkedIn"
             >
               <Linkedin className="h-5 w-5" />
             </a>
             <a 
-              href="#" 
+              href={hero.emailUrl} 
               className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-smooth group"
               aria-label="Email"
             >
@@ -92,13 +94,13 @@ const Hero = () => {
               {/* User image (served from public/bg.jpeg). Replace public/bg.jpeg with your actual photo. */}
               <div className="w-full h-full bg-card relative">
                 <img
-                  src="/bg.jpeg"
-                  alt="Aashutosh Dahal"
+                  src={hero.imageUrl}
+                  alt={hero.name}
                   className="w-full h-full object-cover block"
                 />
 
                 {/* Screen-reader only caption (visible if needed) */}
-                <span className="sr-only">Profile photo of Aashutosh Dahal</span>
+                <span className="sr-only">Profile photo of {hero.name}</span>
               </div>
               
               {/* Decorative Elements */}

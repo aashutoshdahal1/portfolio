@@ -1,24 +1,8 @@
+import { useContent } from "@/contexts/ContentContext";
+
 const Experience = () => {
-  const experiences = [
-    {
-      year: "2023 - Present",
-      role: "Senior Front-End Developer",
-      company: "Tech Innovations Inc.",
-      description: "Leading front-end development for enterprise applications, mentoring junior developers, and implementing best practices."
-    },
-    {
-      year: "2021 - 2023",
-      role: "Full-Stack Developer",
-      company: "Digital Solutions Ltd.",
-      description: "Built and maintained multiple client projects using MERN stack, improved application performance by 40%."
-    },
-    {
-      year: "2019 - 2021",
-      role: "Junior Developer",
-      company: "StartUp Ventures",
-      description: "Developed responsive web applications, collaborated with designers to implement pixel-perfect UIs."
-    }
-  ];
+  const { content } = useContent();
+  const { experience: experiences } = content;
 
   return (
     <section id="experience" className="py-32 px-6 relative overflow-hidden">

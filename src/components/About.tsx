@@ -1,6 +1,10 @@
 import { Code2, Palette, Rocket, Users } from "lucide-react";
+import { useContent } from "@/contexts/ContentContext";
 
 const About = () => {
+  const { content } = useContent();
+  const { about } = content;
+
   const highlights = [
     {
       icon: Code2,
@@ -40,24 +44,11 @@ const About = () => {
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6 animate-fade-up">
-<p className="text-lg text-muted-foreground leading-relaxed">
-  I’m a dedicated developer who blends creativity with technical precision to 
-  craft meaningful digital experiences. Skilled in the MERN stack and modern 
-  front-end technologies, I turn complex ideas into clean and user-focused solutions.
-</p>
-
-<p className="text-lg text-muted-foreground leading-relaxed">
-  My journey in web development began with a simple curiosity about how the web 
-  works, and it has grown into a passion for building products that truly make 
-  an impact. I’m committed to continuous learning and staying aligned with 
-  evolving technologies to deliver innovative results.
-</p>
-
-<p className="text-lg text-muted-foreground leading-relaxed">
-  Outside of coding, I enjoy going to gym, experimenting with new tools, contributing to 
-  open-source projects, and sharing insights with the developer community.
-</p>
-
+            {about.paragraphs.map((paragraph, index) => (
+              <p key={index} className="text-lg text-muted-foreground leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
           </div>
 
           <div className="grid grid-cols-2 gap-6">
