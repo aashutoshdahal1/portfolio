@@ -163,7 +163,11 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const fetchContent = async () => {
       try {
         setLoading(true);
-        const data = await contentAPI.getContent();
+        // Race the API call against a timeout to avoid hanging the UI indefinitely
+        const data = await Promise.race([
+          contentAPI.getContent(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), 15000)),
+        ]);
         setContent(data);
         setError(null);
       } catch (err: any) {

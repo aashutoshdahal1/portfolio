@@ -8,6 +8,8 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  // Fail fast for slow network requests so UI can fall back to local cache / skeletons
+  timeout: 10000, // 10s
 });
 
 // Add token to requests if available
