@@ -63,6 +63,8 @@ const Hero = () => {
               href={hero.githubUrl} 
               className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-smooth group"
               aria-label="GitHub"
+              target="_blank" rel="noopener noreferrer"
+              
             >
               <Github className="h-5 w-5" />
             </a>
@@ -70,6 +72,7 @@ const Hero = () => {
               href={hero.linkedinUrl} 
               className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-smooth group"
               aria-label="LinkedIn"
+              target="_blank" rel="noopener noreferrer"
             >
               <Linkedin className="h-5 w-5" />
             </a>
@@ -77,6 +80,7 @@ const Hero = () => {
               href={hero.emailUrl} 
               className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-smooth group"
               aria-label="Email"
+              target="_blank" rel="noopener noreferrer"
             >
               <Mail className="h-5 w-5" />
             </a>
