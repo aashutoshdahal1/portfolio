@@ -1,9 +1,41 @@
 import { Code2, Palette, Rocket, Users } from "lucide-react";
 import { useContent } from "@/contexts/ContentContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const About = () => {
-  const { content } = useContent();
+  const { content, loading } = useContent();
   const { about } = content;
+
+  if (loading) {
+    return (
+      <section id="about" className="py-32 px-6 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <Skeleton className="h-4 w-32 mx-auto" />
+            <Skeleton className="h-12 w-96 mx-auto" />
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4" />
+            </div>
+
+            <div className="grid grid-cols-2 gap-6">
+              {[0,1,2,3].map(i => (
+                <div key={i} className="p-6 rounded-2xl">
+                  <Skeleton className="h-12 w-12 mb-4 rounded-xl" />
+                  <Skeleton className="h-4 w-32 mb-2" />
+                  <Skeleton className="h-3 w-full" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   const highlights = [
     {

@@ -1,10 +1,44 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 import { useContent } from "@/contexts/ContentContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Hero = () => {
-  const { content } = useContent();
+  const { content, loading } = useContent();
   const { hero } = content;
+
+  if (loading) {
+    return (
+      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 py-20">
+        <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <Skeleton className="h-6 w-40" />
+              <Skeleton className="h-16 w-72" />
+              <Skeleton className="h-10 w-56" />
+            </div>
+
+            <Skeleton className="h-4 w-full max-w-2xl" />
+            <div className="flex gap-4">
+              <Skeleton className="h-12 w-40 rounded-full" />
+              <Skeleton className="h-12 w-40 rounded-full" />
+            </div>
+            <div className="flex gap-4 pt-4">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <Skeleton className="h-12 w-12 rounded-full" />
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="relative w-full aspect-square max-w-lg mx-auto">
+              <Skeleton className="w-full h-full rounded-3xl" />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
   <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 py-20">

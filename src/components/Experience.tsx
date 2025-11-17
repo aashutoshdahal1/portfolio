@@ -1,8 +1,35 @@
 import { useContent } from "@/contexts/ContentContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Experience = () => {
-  const { content } = useContent();
+  const { content, loading } = useContent();
   const { experience: experiences } = content;
+
+  if (loading) {
+    return (
+      <section id="experience" className="py-32 px-6 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <Skeleton className="h-4 w-32 mx-auto" />
+            <Skeleton className="h-12 w-96 mx-auto" />
+          </div>
+
+          <div className="space-y-12">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="relative pl-20">
+                <Skeleton className="h-6 w-6 absolute left-6 top-2 rounded-full" />
+                <div className="glass p-6 rounded-2xl">
+                  <Skeleton className="h-6 w-48 mb-4" />
+                  <Skeleton className="h-4 w-3/4 mb-2" />
+                  <Skeleton className="h-4 w-full" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="experience" className="py-32 px-6 relative overflow-hidden">

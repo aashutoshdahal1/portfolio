@@ -1,8 +1,35 @@
 import { useContent } from "@/contexts/ContentContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Skills = () => {
-  const { content } = useContent();
+  const { content, loading } = useContent();
   const { skills: skillCategories } = content;
+
+  if (loading) {
+    return (
+      <section id="skills" className="py-32 px-6 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <Skeleton className="h-4 w-32 mx-auto" />
+            <Skeleton className="h-12 w-96 mx-auto" />
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[0,1,2].map(i => (
+              <div key={i} className="p-8 rounded-3xl">
+                <Skeleton className="h-8 w-48 mb-6" />
+                <div className="flex flex-wrap gap-3">
+                  {Array.from({ length: 6 }).map((_, idx) => (
+                    <Skeleton key={idx} className="h-8 w-20 rounded-full" />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   // Skills that should use a blue pill style
   const blueSkills = new Set([

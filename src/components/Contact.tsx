@@ -3,12 +3,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { useContent } from "@/contexts/ContentContext";
+import { Skeleton } from "@/components/ui/skeleton";
 import { contactAPI } from "@/lib/api";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
-  const { content } = useContent();
+  const { content, loading } = useContent();
   const { contact } = content;
   const { toast } = useToast();
   
@@ -72,7 +73,27 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-32 px-6 relative overflow-hidden">
-      {/* Background Elements */}
+      {loading ? (
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <Skeleton className="h-4 w-32 mx-auto" />
+            <Skeleton className="h-12 w-96 mx-auto" />
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12">
+            <div className="space-y-8">
+              <Skeleton className="h-48 w-full rounded-3xl" />
+              <Skeleton className="h-24 w-full rounded-3xl" />
+            </div>
+
+            <div>
+              <Skeleton className="h-[420px] w-full rounded-3xl" />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Background Elements */}
       <div className="absolute top-1/4 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       
@@ -206,6 +227,8 @@ const Contact = () => {
           </div>
         </div>
       </div>
+        </>
+      )}
     </section>
   );
 };
