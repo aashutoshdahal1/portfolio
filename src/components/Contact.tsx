@@ -3,10 +3,72 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { useContent } from "@/contexts/ContentContext";
+import { contactAPI } from "@/lib/api";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
   const { content } = useContent();
   const { contact } = content;
+  const { toast } = useToast();
+  
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validation
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      toast({
+        title: "Missing Fields",
+        description: "Please fill in all fields before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      const response = await contactAPI.submitContact(formData);
+      
+      toast({
+        title: "Message Sent! 🎉",
+        description: response.message || "Thank you for reaching out. I'll get back to you soon!",
+      });
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error: any) {
+      console.error("Contact form error:", error);
+      toast({
+        title: "Failed to Send",
+        description: error.response?.data?.message || "Something went wrong. Please try again or email me directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section id="contact" className="py-32 px-6 relative overflow-hidden">
@@ -72,7 +134,7 @@ const Contact = () => {
 
           {/* Contact Form */}
           <div className="glass p-8 rounded-3xl">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label htmlFor="name" className="text-sm font-medium">
@@ -82,6 +144,9 @@ const Contact = () => {
                     id="name"
                     placeholder="Your name"
                     className="glass border-2 border-border/50 focus:border-primary transition-smooth"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="space-y-2">
@@ -93,6 +158,9 @@ const Contact = () => {
                     type="email"
                     placeholder="your.email@example.com"
                     className="glass border-2 border-border/50 focus:border-primary transition-smooth"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
                   />
                 </div>
               </div>
@@ -105,6 +173,9 @@ const Contact = () => {
                   id="subject"
                   placeholder="What's this about?"
                   className="glass border-2 border-border/50 focus:border-primary transition-smooth"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -117,6 +188,9 @@ const Contact = () => {
                   placeholder="Tell me about your project..."
                   rows={6}
                   className="glass border-2 border-border/50 focus:border-primary transition-smooth resize-none"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -124,8 +198,9 @@ const Contact = () => {
                 type="submit"
                 size="lg"
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-elegant hover:glow-primary transition-smooth"
+                disabled={isSubmitting}
               >
-                Send Message
+                {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
             </form>
           </div>

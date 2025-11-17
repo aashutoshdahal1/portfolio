@@ -62,4 +62,32 @@ export const contentAPI = {
   },
 };
 
+// Contact API
+export const contactAPI = {
+  submitContact: async (data: {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+  }) => {
+    const response = await api.post('/contact', data);
+    return response.data;
+  },
+
+  getContacts: async (params?: { status?: string; limit?: number; skip?: number }) => {
+    const response = await api.get('/contact', { params });
+    return response.data;
+  },
+
+  updateContactStatus: async (id: string, status: 'new' | 'read' | 'responded') => {
+    const response = await api.patch(`/contact/${id}/status`, { status });
+    return response.data;
+  },
+
+  deleteContact: async (id: string) => {
+    const response = await api.delete(`/contact/${id}`);
+    return response.data;
+  },
+};
+
 export default api;

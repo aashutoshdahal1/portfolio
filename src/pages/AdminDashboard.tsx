@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useContent } from '@/contexts/ContentContext';
 import { logout } from '@/lib/adminAuth';
 import { useToast } from '@/hooks/use-toast';
+import { contactAPI } from '@/lib/api';
 import { 
   LogOut, 
   Save, 
@@ -20,13 +21,19 @@ import {
   Mail,
   Home,
   Plus,
-  Trash2
+  Trash2,
+  Inbox,
+  Eye,
+  CheckCircle2,
+  Clock
 } from 'lucide-react';
 
 const AdminDashboard = () => {
   const { content, updateContent, loading: contentLoading } = useContent();
   const [editedContent, setEditedContent] = useState(content);
   const [isSaving, setIsSaving] = useState(false);
+  const [contacts, setContacts] = useState<any[]>([]);
+  const [contactsLoading, setContactsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -34,6 +41,66 @@ const AdminDashboard = () => {
   useEffect(() => {
     setEditedContent(content);
   }, [content]);
+
+  // Fetch contacts when component mounts
+  useEffect(() => {
+    fetchContacts();
+  }, []);
+
+  const fetchContacts = async () => {
+    try {
+      setContactsLoading(true);
+      const response = await contactAPI.getContacts({ limit: 100 });
+      setContacts(response.contacts || []);
+    } catch (error: any) {
+      console.error('Failed to fetch contacts:', error);
+      toast({
+        title: "Failed to Load Contacts",
+        description: error.response?.data?.message || "Could not fetch contacts.",
+        variant: "destructive",
+      });
+    } finally {
+      setContactsLoading(false);
+    }
+  };
+
+  const handleContactStatusChange = async (id: string, status: 'new' | 'read' | 'responded') => {
+    try {
+      await contactAPI.updateContactStatus(id, status);
+      setContacts((prev) =>
+        prev.map((c) => (c._id === id ? { ...c, status } : c))
+      );
+      toast({
+        title: "Status Updated",
+        description: `Contact marked as ${status}.`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Update Failed",
+        description: error.response?.data?.message || "Failed to update status.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleContactDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this contact?')) return;
+    
+    try {
+      await contactAPI.deleteContact(id);
+      setContacts((prev) => prev.filter((c) => c._id !== id));
+      toast({
+        title: "Contact Deleted",
+        description: "Contact has been removed.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Delete Failed",
+        description: error.response?.data?.message || "Failed to delete contact.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -174,6 +241,15 @@ const AdminDashboard = () => {
             <TabsTrigger value="contact" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Mail className="mr-2 h-4 w-4" />
               Contact
+            </TabsTrigger>
+            <TabsTrigger value="contacts" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Inbox className="mr-2 h-4 w-4" />
+              Contacts
+              {contacts.filter(c => c.status === 'new').length > 0 && (
+                <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-red-500 text-white">
+                  {contacts.filter(c => c.status === 'new').length}
+                </span>
+              )}
             </TabsTrigger>
           </TabsList>
 
@@ -646,6 +722,131 @@ const AdminDashboard = () => {
                   />
                 </div>
               </div>
+            </Card>
+          </TabsContent>
+
+          {/* Contacts Section - NEW */}
+          <TabsContent value="contacts">
+            <Card className="glass border-2 border-border/50 p-6 space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <Inbox className="h-6 w-6 text-primary" />
+                  Contact Submissions
+                </h2>
+                <Button
+                  onClick={fetchContacts}
+                  disabled={contactsLoading}
+                  variant="outline"
+                  size="sm"
+                >
+                  {contactsLoading ? 'Loading...' : 'Refresh'}
+                </Button>
+              </div>
+
+              {contactsLoading ? (
+                <div className="text-center py-12 text-muted-foreground">
+                  Loading contacts...
+                </div>
+              ) : contacts.length === 0 ? (
+                <div className="text-center py-12">
+                  <Inbox className="h-16 w-16 mx-auto text-muted-foreground/50 mb-4" />
+                  <p className="text-muted-foreground">No contact submissions yet.</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {contacts.map((contact) => (
+                    <div
+                      key={contact._id}
+                      className="p-6 glass rounded-xl border border-border/50 space-y-4"
+                    >
+                      <div className="flex justify-between items-start gap-4">
+                        <div className="flex-1 space-y-3">
+                          <div className="flex items-center gap-3">
+                            <h3 className="text-lg font-bold">{contact.name}</h3>
+                            <span
+                              className={`px-2 py-1 text-xs rounded-full font-medium ${
+                                contact.status === 'new'
+                                  ? 'bg-blue-500/20 text-blue-300'
+                                  : contact.status === 'read'
+                                  ? 'bg-yellow-500/20 text-yellow-300'
+                                  : 'bg-green-500/20 text-green-300'
+                              }`}
+                            >
+                              {contact.status === 'new' && <Clock className="inline h-3 w-3 mr-1" />}
+                              {contact.status === 'read' && <Eye className="inline h-3 w-3 mr-1" />}
+                              {contact.status === 'responded' && <CheckCircle2 className="inline h-3 w-3 mr-1" />}
+                              {contact.status}
+                            </span>
+                          </div>
+                          
+                          <div className="grid md:grid-cols-2 gap-2 text-sm">
+                            <div>
+                              <span className="text-muted-foreground">Email:</span>{' '}
+                              <a href={`mailto:${contact.email}`} className="text-primary hover:underline">
+                                {contact.email}
+                              </a>
+                            </div>
+                            <div>
+                              <span className="text-muted-foreground">Date:</span>{' '}
+                              {new Date(contact.createdAt).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              })}
+                            </div>
+                          </div>
+
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Subject:</p>
+                            <p className="font-medium">{contact.subject}</p>
+                          </div>
+
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Message:</p>
+                            <p className="text-sm whitespace-pre-wrap bg-card/50 p-3 rounded-lg border border-border/30">
+                              {contact.message}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2 pt-2 border-t border-border/30">
+                        <select
+                          value={contact.status}
+                          onChange={(e) => handleContactStatusChange(contact._id, e.target.value as any)}
+                          className="glass border-2 border-border/50 px-3 py-2 rounded-lg text-sm"
+                        >
+                          <option value="new">New</option>
+                          <option value="read">Read</option>
+                          <option value="responded">Responded</option>
+                        </select>
+                        
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          asChild
+                        >
+                          <a href={`mailto:${contact.email}?subject=Re: ${encodeURIComponent(contact.subject)}`}>
+                            <Mail className="h-4 w-4 mr-1" />
+                            Reply
+                          </a>
+                        </Button>
+
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => handleContactDelete(contact._id)}
+                        >
+                          <Trash2 className="h-4 w-4 mr-1" />
+                          Delete
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </Card>
           </TabsContent>
         </Tabs>

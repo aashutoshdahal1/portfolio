@@ -13,6 +13,7 @@ const allowedOrigins = [
   process.env.CORS_ORIGIN || 'https://aashutoshdahal.vercel.app', 
   'http://localhost:3000',
   'http://localhost:8080',
+  'http://localhost:8081',
   'http://localhost:5173'
 ];
 app.use(cors({
@@ -36,6 +37,7 @@ app.use(express.json());
 // Import routes
 const authRoutes = require('./routes/auth');
 const contentRoutes = require('./routes/content');
+const contactRoutes = require('./routes/contact');
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI).then(() => {
@@ -47,6 +49,7 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/content', contentRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
