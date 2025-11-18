@@ -50,23 +50,28 @@ router.post('/', async (req, res) => {
       message: message.trim(),
     });
 
-    // Send email notification to admin
+    // Send email notification to admin in background so SMTP latency doesn't block the response.
     try {
       const transporter = createTransporter();
-      
       const mailOptions = {
-        from: `"Portfolio Contact Form" <${process.env.EMAIL_USER}>`,
+        from: `\"Portfolio Contact Form\" <${process.env.EMAIL_USER}>`,
         to: process.env.EMAIL_USER, // Send to admin email
         subject: `New Contact: ${subject}`,
         html: contactEmailTemplate(contact),
         replyTo: email, // Allow admin to reply directly
       };
 
-      await transporter.sendMail(mailOptions);
-      console.log('Contact notification email sent to admin');
+      // Fire-and-forget: do not await sendMail. Handle result asynchronously.
+      transporter.sendMail(mailOptions)
+        .then((info) => {
+          console.log('Contact notification email sent to admin', info && info.messageId);
+        })
+        .catch((emailError) => {
+          console.error('Error sending email notification (background):', emailError);
+        });
     } catch (emailError) {
-      console.error('Error sending email notification:', emailError);
-      // Don't fail the request if email fails - contact is still saved
+      console.error('Error preparing email notification:', emailError);
+      // Don't fail the request if email setup fails - contact is still saved
     }
 
     res.status(201).json({
