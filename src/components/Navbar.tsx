@@ -129,16 +129,6 @@ const Navbar = () => {
 
               <button
                 onClick={() => {
-                  navigate('/admin/login');
-                  setOpen(false);
-                }}
-                className="w-full text-left text-sm font-semibold py-2 px-3 rounded-md bg-primary text-primary-foreground hover:opacity-95 transition"
-              >
-                Admin Login
-              </button>
-
-              <button
-                onClick={() => {
                   scrollTo('contact');
                 }}
                 className="w-full text-left text-sm font-medium py-2 px-3 rounded-md glass"
