@@ -148,6 +148,7 @@ interface ContentContextType {
   content: PortfolioContent;
   updateContent: (newContent: PortfolioContent) => Promise<void>;
   loading: boolean;
+  initialLoading: boolean;
   error: string | null;
 }
 
@@ -156,6 +157,7 @@ const ContentContext = createContext<ContentContextType | undefined>(undefined);
 export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<PortfolioContent>(defaultContent);
   const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // Fetch content from API on mount
@@ -180,6 +182,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         }
       } finally {
         setLoading(false);
+        setInitialLoading(false); // Mark initial load as complete
       }
     };
 
@@ -204,7 +207,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   return (
-    <ContentContext.Provider value={{ content, updateContent, loading, error }}>
+    <ContentContext.Provider value={{ content, updateContent, loading, initialLoading, error }}>
       {children}
     </ContentContext.Provider>
   );
