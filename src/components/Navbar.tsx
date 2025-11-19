@@ -85,14 +85,6 @@ const Navbar = () => {
             </button>
           ))}
 
-          {/* Admin Login redirect button */}
-          <button
-            onClick={() => navigate('/admin/login')}
-            className="text-sm font-semibold py-2 px-3 rounded-full bg-primary text-primary-foreground hover:opacity-90 transition"
-            aria-label="Admin login"
-          >
-            Admin Login
-          </button>
         </div>
         <div className="md:hidden relative">
           {/* Hamburger toggle */}
