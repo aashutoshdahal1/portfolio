@@ -7,9 +7,10 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useContent } from '@/contexts/ContentContext';
-import { logout } from '@/lib/adminAuth';
+import { logout, isAuthenticated, verifyAuth } from '@/lib/adminAuth';
 import { useToast } from '@/hooks/use-toast';
-import { contactAPI } from '@/lib/api';
+import { contactAPI, authAPI } from '@/lib/api';
+import { Skeleton } from '@/components/ui/skeleton';
 import { 
   LogOut, 
   Save, 
@@ -216,6 +217,26 @@ const AdminDashboard = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
+        {contentLoading ? (
+          <Card className="glass border-2 border-border/50 p-8 space-y-6">
+            <div className="flex items-center gap-3 mb-8">
+              <Skeleton className="h-10 w-10 rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-6 w-48" />
+                <Skeleton className="h-4 w-64" />
+              </div>
+            </div>
+            <div className="space-y-4">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-32 w-full" />
+              <div className="grid grid-cols-2 gap-4">
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+            </div>
+          </Card>
+        ) : (
         <Tabs defaultValue="hero" className="space-y-6">
           <TabsList className="glass border-2 border-border/50 p-1">
             <TabsTrigger value="hero" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
@@ -744,8 +765,26 @@ const AdminDashboard = () => {
               </div>
 
               {contactsLoading ? (
-                <div className="text-center py-12 text-muted-foreground">
-                  Loading contacts...
+                <div className="space-y-4">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <div key={i} className="p-6 glass rounded-xl border border-border/50 space-y-4">
+                      <div className="flex items-center gap-3">
+                        <Skeleton className="h-6 w-48" />
+                        <Skeleton className="h-6 w-16 rounded-full" />
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-2">
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-full" />
+                      </div>
+                      <Skeleton className="h-4 w-32" />
+                      <Skeleton className="h-20 w-full rounded-lg" />
+                      <div className="flex gap-2 pt-2">
+                        <Skeleton className="h-10 w-32" />
+                        <Skeleton className="h-10 w-24" />
+                        <Skeleton className="h-10 w-24" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : contacts.length === 0 ? (
                 <div className="text-center py-12">
@@ -850,6 +889,7 @@ const AdminDashboard = () => {
             </Card>
           </TabsContent>
         </Tabs>
+        )}
       </main>
     </div>
   );
